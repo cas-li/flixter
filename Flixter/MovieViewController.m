@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *movieArray;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @end
 
@@ -23,10 +24,12 @@ NSString *CellIdentifier = @"com.codepath.myCustomCell";
 
 
 - (void)viewDidLoad {
+    [self.activityIndicator startAnimating];
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
+    
     [self fetchMovies];
+    
     
     //            implement pull to refresh
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -45,6 +48,15 @@ NSString *CellIdentifier = @"com.codepath.myCustomCell";
 
         if (error != nil) {
             NSLog(@"%@", [error localizedDescription]);
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Cannot Get Movies"
+                                           message:@"The internet connection appears to be offline."
+                                           preferredStyle:UIAlertControllerStyleAlert];
+             
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+               handler:^(UIAlertAction * action) {}];
+             
+            [alert addAction:defaultAction];
+            [self presentViewController:alert animated:YES completion:nil];
         }
         else {
             typeof(self) strongSelf = weakSelf;
@@ -52,6 +64,8 @@ NSString *CellIdentifier = @"com.codepath.myCustomCell";
                 return;
             }
             NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            
+            [self.activityIndicator stopAnimating];
             
             NSLog(@"%@", dataDictionary);// log an object with the %@ formatter.
             
