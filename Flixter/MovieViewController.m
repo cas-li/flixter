@@ -70,8 +70,9 @@ NSString *CellIdentifier = @"com.codepath.myCustomCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     myCustomCell *cell = [tableView dequeueReusableCellWithIdentifier:@"myCustomCell" forIndexPath:indexPath];
-    
-//    cell.textLabel.text = self.movieArray[indexPath.row][@"title"];
+
+    NSDictionary *movie = self.movieArray[indexPath.row];
+    cell.titleLabel.text = movie[@"title"];
 
     return cell;
 }
