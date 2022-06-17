@@ -7,12 +7,13 @@
 
 #import "MovieViewController.h"
 #import "myCustomCell.h"
+#import "DetailsViewController.h"
 
-@interface MovieViewController () <UITableViewDataSource>
+@interface MovieViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
 @property (nonatomic, strong) NSArray *movieArray;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
@@ -24,6 +25,17 @@ NSString *CellIdentifier = @"com.codepath.myCustomCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
+    [self fetchMovies];
+    
+    //            implement pull to refresh
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    
+    [self.refreshControl addTarget:self action:@selector(fetchMovies) forControlEvents:UIControlEventValueChanged];
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
+}
+
+- (void)fetchMovies {
     NSURL *url = [NSURL URLWithString:@"https://api.themoviedb.org/3/movie/now_playing?api_key=d1df56c0ce66b8c88c4d0cf53ca88ea0"];
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
@@ -51,18 +63,15 @@ NSString *CellIdentifier = @"com.codepath.myCustomCell";
             
             [strongSelf.tableView reloadData];
             
-            [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:CellIdentifier]; // order?
+            [strongSelf.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:CellIdentifier]; // order?
+            strongSelf.tableView.rowHeight = 200;
+        
             
         }
+        [self.refreshControl endRefreshing];
     }];
     [task resume];
 }
-
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-//    cell.textLabel.text = self.movieArray[indexPath.row][@"title"];
-//    return cell;
-//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.movieArray.count;
@@ -73,18 +82,32 @@ NSString *CellIdentifier = @"com.codepath.myCustomCell";
 
     NSDictionary *movie = self.movieArray[indexPath.row];
     cell.titleLabel.text = movie[@"title"];
+    
+    cell.synopsisLabel.text = movie[@"overview"];
+    
+    NSString *posterURLString = [@"https://image.tmdb.org/t/p/w500" stringByAppendingString:movie[@"poster_path"]];
+    cell.posterImage.image = nil;
+    NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: posterURLString]];
+    cell.posterImage.image = [UIImage imageWithData: imageData];
 
     return cell;
 }
 
-/*
- #pragma mark - Navigation
+
+// #pragma mark - Navigation
  
  // In a storyboard-based application, you will often want to do a little preparation before navigation
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
  // Get the new view controller using [segue destinationViewController].
  // Pass the selected object to the new view controller.
+     
+     myCustomCell *cell = sender;
+     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+     NSDictionary *dataToPass = self.movieArray[indexPath.row];
+     
+     DetailsViewController *detailsVC = [segue destinationViewController];
+     detailsVC.movieInfo = dataToPass;
  }
- */
+ 
 
 @end
