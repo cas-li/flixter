@@ -76,7 +76,7 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    GridViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"com.codepath.GridViewCell" forIndexPath:indexPath];
+    GridViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GridViewCell" forIndexPath:indexPath];
     
     NSDictionary *movie = self.movieArray[indexPath.row];
 
