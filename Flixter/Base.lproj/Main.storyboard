@@ -146,11 +146,11 @@
             </objects>
             <point key="canvasLocation" x="1782.608695652174" y="89.732142857142847"/>
         </scene>
-        <!--Item-->
+        <!--Now Playing-->
         <scene sceneID="eCI-Uu-mcq">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Osf-dt-WaC" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="ppv-pt-IUR"/>
+                    <tabBarItem key="tabBarItem" title="Now Playing" id="ppv-pt-IUR"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="GLG-8a-emA">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -210,7 +210,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aTZ-iW-Sgg">
-                                                    <rect key="frame" x="-44" y="-17" width="240" height="145"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>
@@ -234,11 +234,11 @@
             </objects>
             <point key="canvasLocation" x="1813.0434782608697" y="946.875"/>
         </scene>
-        <!--Item-->
+        <!--Movies-->
         <scene sceneID="Hub-vv-qXr">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZQA-HY-yxa" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="Jdh-aL-yBa"/>
+                    <tabBarItem key="tabBarItem" title="Movies" id="Jdh-aL-yBa"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="scg-jO-h2C">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
